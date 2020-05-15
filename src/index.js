@@ -1,4 +1,3 @@
-var indexCode = '10000'
-module.exports = {
-  indexCode: indexCode
-}
+import { helloWorld } from './helloworld'
+
+document.write(helloWorld());

@@ -1,23 +1,24 @@
 const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
   entry: {
-    index: './src/index.js'
+    index: './src/index.js',
+    search: './src/search.js'
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js'
+    filename: '[name]_[chunkhash:8].js'
   },
   // mode: 'production',
-  mode: 'production',
+  mode: 'none',
   module: {
     rules: [
       {
-        test: '/.js$/',
-        exclude: /node_modules/,
+        test: /.js$/,
         use: 'babel-loader'
-      }
+      },
     ]
   },
   plugins: [
@@ -25,7 +26,15 @@ module.exports = {
       template: path.join(__dirname, 'src/index.html'),
       filename: 'index.html',
       inject: true,
-    })
+      chunks: ['index'],
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src/search.html'),
+      filename: 'search.html',
+      inject: true,
+      chunks: ['search'],
+    }),
+    new CleanWebpackPlugin()
   ],
   devServer: {
     contentBase: './dist',
